@@ -1,7 +1,7 @@
 import XCTest
 
-import InteractionTests
+import InteractTests
 
 var tests = [XCTestCaseEntry]()
-tests += InteractionTests.allTests()
+tests += InteractTests.allTests()
 XCTMain(tests)
