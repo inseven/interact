@@ -26,6 +26,6 @@ let package = Package(
             dependencies: []),
         .testTarget(
             name: "InteractTests",
-            dependencies: ["I"]),
+            dependencies: ["Interact"]),
     ]
 )
