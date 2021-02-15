@@ -46,4 +46,8 @@ extension Color {
         Color(NSColor.textBackgroundColor)
     }
 
+    public static var windowBackgroundColor: Color {
+        Color(NSColor.windowBackgroundColor)
+    }
+
 }
