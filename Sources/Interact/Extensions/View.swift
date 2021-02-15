@@ -26,4 +26,8 @@ extension View {
         clipShape(RoundedCorner(radius: radius, corners: corners))
     }
 
+    public func eraseToAnyView() -> AnyView {
+        return AnyView(self)
+    }
+
 }
