@@ -18,25 +18,40 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-import Foundation
+import SwiftUI
 
-extension String {
+struct SearchField: NSViewRepresentable {
 
-    public var deletingPathExtension: String {
-        (self as NSString).deletingPathExtension
-    }
+    class Coordinator: NSObject, NSSearchFieldDelegate {
+        var parent: SearchField
 
-    public var tokens: [String] {
-        components(separatedBy: .whitespacesAndNewlines).filter { !$0.isEmpty }
-    }
-
-    public func localizedSearchMatches(string: String) -> Bool {
-        for token in string.tokens {
-            if !localizedStandardContains(token) {
-                return false
-            }
+        init(_ parent: SearchField) {
+            self.parent = parent
         }
-        return true
+
+        func controlTextDidChange(_ notification: Notification) {
+            guard let searchField = notification.object as? NSSearchField else {
+                print("Unexpected control in update notification")
+                return
+            }
+            self.parent.search = searchField.stringValue
+        }
+
+    }
+
+    @Binding var search: String
+
+    func makeNSView(context: Context) -> NSSearchField {
+        return NSSearchField(frame: .zero)
+    }
+
+    func updateNSView(_ searchField: NSSearchField, context: Context) {
+        searchField.stringValue = search
+        searchField.delegate = context.coordinator
+    }
+
+    func makeCoordinator() -> Coordinator {
+        return Coordinator(self)
     }
 
 }
