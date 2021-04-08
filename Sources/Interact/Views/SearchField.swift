@@ -20,16 +20,16 @@
 
 import SwiftUI
 
-struct SearchField: NSViewRepresentable {
+public struct SearchField: NSViewRepresentable {
 
-    class Coordinator: NSObject, NSSearchFieldDelegate {
+    public class Coordinator: NSObject, NSSearchFieldDelegate {
         var parent: SearchField
 
         init(_ parent: SearchField) {
             self.parent = parent
         }
 
-        func controlTextDidChange(_ notification: Notification) {
+        public func controlTextDidChange(_ notification: Notification) {
             guard let searchField = notification.object as? NSSearchField else {
                 print("Unexpected control in update notification")
                 return
@@ -41,16 +41,20 @@ struct SearchField: NSViewRepresentable {
 
     @Binding var search: String
 
-    func makeNSView(context: Context) -> NSSearchField {
+    public init(search: Binding<String>) {
+        _search = search
+    }
+
+    public func makeNSView(context: Context) -> NSSearchField {
         return NSSearchField(frame: .zero)
     }
 
-    func updateNSView(_ searchField: NSSearchField, context: Context) {
+    public func updateNSView(_ searchField: NSSearchField, context: Context) {
         searchField.stringValue = search
         searchField.delegate = context.coordinator
     }
 
-    func makeCoordinator() -> Coordinator {
+    public func makeCoordinator() -> Coordinator {
         return Coordinator(self)
     }
 
