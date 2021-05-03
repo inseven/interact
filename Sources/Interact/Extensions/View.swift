@@ -30,4 +30,21 @@ extension View {
         return AnyView(self)
     }
 
+    public func onClick(_ click: @escaping () -> Void, doubleClick: @escaping () -> Void) -> some View {
+        return gesture(TapGesture()
+                        .onEnded(click)
+                        .simultaneously(with: TapGesture(count: 2)
+                                            .onEnded(doubleClick)))
+    }
+
+    public func onShiftClick(_ action: @escaping () -> Void) -> some View {
+        return highPriorityGesture(TapGesture(count: 1)
+                                    .modifiers(EventModifiers.shift).onEnded(action))
+    }
+
+    public func onCommandClick(_ action: @escaping () -> Void) -> some View {
+        return highPriorityGesture(TapGesture(count: 1)
+                                    .modifiers(EventModifiers.command).onEnded(action))
+    }
+
 }
