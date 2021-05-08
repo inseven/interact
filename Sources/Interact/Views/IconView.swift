@@ -20,17 +20,17 @@
 
 import SwiftUI
 
-struct IconView: View {
+public struct IconView: View {
 
     @StateObject var iconProvider: IconProvider
     let size: CGSize
 
-    init(url: URL, size: CGSize) {
+    public init(url: URL, size: CGSize) {
         self.size = size
         _iconProvider = StateObject(wrappedValue: IconProvider(url: url, size: size))
     }
 
-    var body: some View {
+    public var body: some View {
         Image(nsImage: iconProvider.image)
             .resizable()
             .frame(width: size.width, height: size.height)
