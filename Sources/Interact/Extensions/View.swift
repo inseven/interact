@@ -47,4 +47,9 @@ extension View {
                                     .modifiers(EventModifiers.command).onEnded(action))
     }
 
+    public func onCommandDoubleClick(_ action: @escaping () -> Void) -> some View {
+        return highPriorityGesture(TapGesture(count: 2)
+                                    .modifiers(EventModifiers.command).onEnded(action))
+    }
+
 }
