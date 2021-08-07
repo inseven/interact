@@ -20,6 +20,46 @@
 
 import SwiftUI
 
+//extension Gesture {
+//
+//    public static func onClick(perform: @escaping ClickCompletion) -> _EndedGesture<TapGesture> {
+//        return TapGesture()
+//            .onEnded(perform)
+//    }
+//
+//    public static func onDoubleClick(perform: @escaping ClickCompletion) -> _EndedGesture<TapGesture> {
+//        TapGesture(count: 2).onEnded(perform)
+//    }
+//
+//    public func onDoubleClick(perform: @escaping ClickCompletion) -> SequenceGesture<Self, _EndedGesture<TapGesture>> {
+//        TapGesture(count:2)
+//            .sequenced(before: self)
+//        sequenced(before: TapGesture(count: 2)
+//                    .onEnded(perform))
+//    }
+//
+//    public func onShiftClick(perform: @escaping ClickCompletion) -> some Gesture {
+//        sequenced(before: TapGesture(count: 1)
+//                    .modifiers(EventModifiers.shift)
+//                    .onEnded(perform))
+//    }
+//
+//    public func onCommandClick(perform: @escaping ClickCompletion) -> some Gesture {
+//        sequenced(before: TapGesture(count: 1)
+//                    .modifiers(EventModifiers.command)
+//                    .onEnded(perform))
+//    }
+//
+//    public func onCommandDoubleClick(perform: @escaping ClickCompletion) -> some Gesture {
+//        sequenced(before: TapGesture(count: 2)
+//                    .modifiers(EventModifiers.command)
+//                    .onEnded(perform))
+//    }
+//
+//}
+
+public typealias ClickCompletion = () -> Void
+
 extension View {
 
     public func cornerRadius(_ radius: CGFloat, corners: RectCorner) -> some View {
@@ -30,26 +70,21 @@ extension View {
         return AnyView(self)
     }
 
-    public func onClick(_ click: @escaping () -> Void, doubleClick: @escaping () -> Void) -> some View {
-        return gesture(TapGesture()
-                        .onEnded(click)
-                        .simultaneously(with: TapGesture(count: 2)
-                                            .onEnded(doubleClick)))
-    }
-
-    public func onShiftClick(_ action: @escaping () -> Void) -> some View {
-        return highPriorityGesture(TapGesture(count: 1)
-                                    .modifiers(EventModifiers.shift).onEnded(action))
-    }
-
-    public func onCommandClick(_ action: @escaping () -> Void) -> some View {
-        return highPriorityGesture(TapGesture(count: 1)
-                                    .modifiers(EventModifiers.command).onEnded(action))
-    }
-
-    public func onCommandDoubleClick(_ action: @escaping () -> Void) -> some View {
-        return highPriorityGesture(TapGesture(count: 2)
-                                    .modifiers(EventModifiers.command).onEnded(action))
+    public func handleMouse(click: @escaping ClickCompletion,
+                            doubleClick: @escaping ClickCompletion = {},
+                            shiftClick: @escaping ClickCompletion = {},
+                            commandClick: @escaping ClickCompletion = {}) -> some View {
+        gesture(TapGesture()
+                    .modifiers(.command)
+                    .onEnded(commandClick)
+                    .exclusively(before: TapGesture()
+                                    .modifiers(.shift)
+                                    .onEnded(shiftClick))
+                    .exclusively(before:
+                                    TapGesture()
+                                    .onEnded(click)
+                                    .simultaneously(with: TapGesture(count: 2)
+                                                        .onEnded(doubleClick))))
     }
 
 }
