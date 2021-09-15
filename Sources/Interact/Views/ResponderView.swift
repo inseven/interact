@@ -99,6 +99,7 @@ struct ResponderView: NSViewRepresentable {
 
     @Environment(\.keyDownHandlers) var keyDownHandlers;
     @Environment(\.keyUpHandlers) var keyUpHandlers;
+    
     @Binding var firstResponder: Bool
 
     func makeCoordinator() -> Coordinator {

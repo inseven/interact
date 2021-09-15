@@ -25,7 +25,7 @@ enum SelectionTrackerError: Error {
     case outOfRange
 }
 
-class SelectionBounds<T> where T: Hashable {
+class SelectionBounds<T> where T: Hashable & Identifiable {
 
     var tracker: SelectionTracker<T>
 
@@ -63,7 +63,7 @@ class SelectionBounds<T> where T: Hashable {
 
 }
 
-public class SelectionTracker<T>: ObservableObject where T: Hashable {
+public class SelectionTracker<T>: ObservableObject where T: Hashable & Identifiable {
 
     var publisher: Published<[T]>.Publisher
     var subscription: Cancellable? = nil
@@ -179,6 +179,10 @@ public class SelectionTracker<T>: ObservableObject where T: Hashable {
         return next
     }
 
+    public var cursor: T? {
+        bounds?.cursor
+    }
+
     public func handleShiftDirectionUp() -> T? {
         guard let bounds = bounds else {
             if let last = self.items.last {
@@ -219,6 +223,20 @@ public class SelectionTracker<T>: ObservableObject where T: Hashable {
         clear(selectingItem: item)
     }
 
+    public func handleClick(id: T.ID?) {
+        guard let id = id else {
+            clear()
+            return
+        }
+        if selection.count == 1 && selection.first?.id == id {
+            return
+        }
+        guard let item = self.items.first(where: { $0.id == id }) else {
+            return
+        }
+        handleClick(item: item)
+    }
+
     public func handleShiftClick(item: T) {
         guard let bounds = bounds else {
             clear(selectingItem: item)
@@ -250,6 +268,19 @@ public class SelectionTracker<T>: ObservableObject where T: Hashable {
         bounds?.cursor = last
         self.items.forEach { item in
             selection.insert(item)
+        }
+    }
+
+    public func select(ids: [T.ID]) {
+        let items = ids.compactMap { id in
+            self.items.first { $0.id == id }
+        }
+        selection.removeAll()
+        for item in items {
+            selection.insert(item)
+        }
+        if let cursor = items.first {
+            bounds = SelectionBounds(tracker: self, cursor: cursor)
         }
     }
 
