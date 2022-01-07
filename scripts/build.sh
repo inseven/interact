@@ -9,7 +9,7 @@ ROOT_DIRECTORY="${SCRIPT_DIRECTORY}/.."
 
 cd "$ROOT_DIRECTORY"
 
-IPHONE_DESTINATION="platform=macOS"
+BUILD_DESTINATION="platform=macOS"
 
 xcodebuild -scheme Interact -showdestinations
-xcodebuild -scheme Interact -destination "$IPHONE_DESTINATION" clean build
+xcodebuild -scheme Interact -destination "$BUILD_DESTINATION" clean build
