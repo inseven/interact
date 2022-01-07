@@ -9,4 +9,7 @@ ROOT_DIRECTORY="${SCRIPT_DIRECTORY}/.."
 
 cd "$ROOT_DIRECTORY"
 
-xcodebuild -scheme Interact clean build | xcpretty
+BUILD_DESTINATION="platform=macOS"
+
+xcodebuild -scheme Interact -showdestinations
+xcodebuild -scheme Interact -destination "$BUILD_DESTINATION" clean build
