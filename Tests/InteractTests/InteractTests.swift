@@ -3,6 +3,10 @@ import XCTest
 
 final class InteractTests: XCTestCase {
 
-    static var allTests = []
-    
+    func testExample() {
+    }
+
+    static var allTests = [
+        ("testExample", testExample),
+    ]
 }
