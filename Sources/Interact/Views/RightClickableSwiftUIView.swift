@@ -20,6 +20,8 @@
 
 import SwiftUI
 
+#if os(macOS)
+
 struct RightClickableSwiftUIView: NSViewRepresentable {
 
     var onRightClickFocusChange: (Bool) -> Void
@@ -60,3 +62,5 @@ protocol RightClickObservingViewDelegate: NSObject {
     func rightClickFocusDidChange(focused: Bool)
 
 }
+
+#endif

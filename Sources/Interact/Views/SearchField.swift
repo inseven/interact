@@ -20,6 +20,8 @@
 
 import SwiftUI
 
+#if os(macOS)
+
 public struct SearchField: NSViewRepresentable {
 
     public class Coordinator: NSObject, NSSearchFieldDelegate {
@@ -59,3 +61,5 @@ public struct SearchField: NSViewRepresentable {
     }
 
 }
+
+#endif

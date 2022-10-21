@@ -22,6 +22,8 @@ import SwiftUI
 
 extension Color {
 
+#if os(macOS)
+
     public static var selectedControlColor: Color {
         Color(NSColor.selectedControlColor)
     }
@@ -49,5 +51,7 @@ extension Color {
     public static var windowBackgroundColor: Color {
         Color(NSColor.windowBackgroundColor)
     }
+
+#endif
 
 }

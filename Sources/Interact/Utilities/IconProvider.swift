@@ -20,6 +20,8 @@
 
 import SwiftUI
 
+#if os(macOS)
+
 class IconProvider: ObservableObject {
 
     let url: URL
@@ -39,3 +41,5 @@ class IconProvider: ObservableObject {
     }
 
 }
+
+#endif

@@ -20,6 +20,8 @@
 
 import SwiftUI
 
+#if os(macOS)
+
 struct KeyDownHandlersKey: EnvironmentKey {
     static var defaultValue: [(NSEvent) -> Bool] = []
 }
@@ -130,3 +132,5 @@ public extension View {
     }
 
 }
+
+#endif

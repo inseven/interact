@@ -20,6 +20,8 @@
 
 import SwiftUI
 
+#if os(macOS)
+
 public struct FrameAutosaveView: NSViewRepresentable {
 
     public class FrameAutosaveNSView: NSView {
@@ -99,3 +101,5 @@ public extension View {
     }
 
 }
+
+#endif

@@ -20,6 +20,8 @@
 
 import SwiftUI
 
+#if os(macOS)
+
 struct ResponderView: NSViewRepresentable {
 
     class Coordinator: NSObject {
@@ -156,3 +158,5 @@ public extension View {
     }
 
 }
+
+#endif
