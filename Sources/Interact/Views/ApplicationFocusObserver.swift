@@ -20,6 +20,8 @@
 
 import SwiftUI
 
+#if os(macOS)
+
 struct ApplicationHasFocusKey: EnvironmentKey {
 
     static var defaultValue: Bool = true
@@ -58,3 +60,5 @@ extension View {
     }
 
 }
+
+#endif

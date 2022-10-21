@@ -20,6 +20,8 @@
 
 import SwiftUI
 
+#if os(macOS)
+
 class RightClickObservingView : NSView {
 
     weak var delegate: RightClickObservingViewDelegate?
@@ -45,3 +47,5 @@ class RightClickObservingView : NSView {
     }
 
 }
+
+#endif

@@ -20,6 +20,8 @@
 
 import SwiftUI
 
+#if os(macOS)
+
 struct ContextMenuFocusKey: EnvironmentKey {
 
     static var defaultValue: Bool = false
@@ -70,3 +72,5 @@ public extension View {
     }
 
 }
+
+#endif

@@ -20,6 +20,8 @@
 
 import SwiftUI
 
+#if os(macOS)
+
 extension EventModifiers {
 
     var modifierFlags: NSEvent.ModifierFlags {
@@ -48,3 +50,5 @@ extension EventModifiers {
     }
 
 }
+
+#endif

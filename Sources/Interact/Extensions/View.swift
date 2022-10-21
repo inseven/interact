@@ -20,6 +20,8 @@
 
 import SwiftUI
 
+#if os(macOS)
+
 //extension Gesture {
 //
 //    public static func onClick(perform: @escaping ClickCompletion) -> _EndedGesture<TapGesture> {
@@ -88,3 +90,5 @@ extension View {
     }
 
 }
+
+#endif

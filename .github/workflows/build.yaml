@@ -12,7 +12,7 @@ jobs:
   test:
 
     name: Build package
-    runs-on: macOS-latest  # Unfortunately macOS 11 is currently unavailable.
+    runs-on: macOS-ventura
 
     steps:
 

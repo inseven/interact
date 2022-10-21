@@ -20,6 +20,8 @@
 
 import SwiftUI
 
+#if os(macOS)
+
 extension NSFont {
 
     public static func preferredFont(forFont font: Font?) -> NSFont {
@@ -53,3 +55,5 @@ extension NSFont {
     }
 
 }
+
+#endif

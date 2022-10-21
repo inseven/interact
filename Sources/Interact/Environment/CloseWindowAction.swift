@@ -20,6 +20,8 @@
 
 import SwiftUI
 
+#if os(macOS)
+
 public typealias CloseWindowAction = () -> Void
 
 struct CloseWindowActionKey: EnvironmentKey {
@@ -38,3 +40,5 @@ extension EnvironmentValues {
     }
 
 }
+
+#endif

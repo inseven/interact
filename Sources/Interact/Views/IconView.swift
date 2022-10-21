@@ -20,6 +20,8 @@
 
 import SwiftUI
 
+#if os(macOS)
+
 public struct IconView: View {
 
     @StateObject var iconProvider: IconProvider
@@ -37,3 +39,5 @@ public struct IconView: View {
     }
 
 }
+
+#endif
