@@ -10,7 +10,6 @@ swift package \
     generate-documentation \
     --target Interact \
     --output-path ./docs \
-    --emit-digest \
     --disable-indexing \
     --transform-for-static-hosting \
     --hosting-base-path 'interact'

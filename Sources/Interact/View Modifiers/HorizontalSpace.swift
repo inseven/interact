@@ -25,9 +25,13 @@ public struct HorizontalSpace: ViewModifier {
     public struct Edge: OptionSet {
         public let rawValue: UInt
 
+        /// Add a leading space.
         public static let leading = Edge(rawValue: 1 << 0)
+
+        /// Add a trailing space.
         public static let trailing = Edge(rawValue: 1 << 1)
 
+        /// Add both leading and trailing spaces.
         public static let both: Edge = [.leading, .trailing]
 
         public init(rawValue: UInt) {
