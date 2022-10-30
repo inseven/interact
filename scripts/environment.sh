@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Copyright (c) 2021 InSeven Limited
+# Copyright (c) 2018-2022 InSeven Limited
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -20,12 +20,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+
 SCRIPTS_DIRECTORY="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 ROOT_DIRECTORY="${SCRIPTS_DIRECTORY}/.."
-CHANGES_DIRECTORY="${SCRIPTS_DIRECTORY}/changes"
-CHANGES_SCRIPT="${CHANGES_DIRECTORY}/changes"
-RELEASE_SCRIPT="${CHANGES_DIRECTORY}/examples/gh-release.sh"
 
-source "${SCRIPTS_DIRECTORY}/environment.sh"
+export PYTHONUSERBASE="${ROOT_DIRECTORY}/.local/python"
+mkdir -p "$PYTHONUSERBASE"
+export PATH="${PYTHONUSERBASE}/bin":$PATH
 
-changes --verbose release --skip-if-empty --push --command "\"${RELEASE_SCRIPT}\"" "\"$@\""
+export PATH=$PATH:"${SCRIPTS_DIRECTORY}/changes"
