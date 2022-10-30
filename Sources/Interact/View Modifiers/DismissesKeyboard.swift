@@ -20,45 +20,25 @@
 
 import SwiftUI
 
-public struct HorizontalSpace: ViewModifier {
+@available(iOS 15, *, macOS 12, *)
+struct DismissesKeyboard<T: Hashable>: ViewModifier {
 
-    public struct Edge: OptionSet {
-        public let rawValue: UInt
+    var focus: FocusState<T?>.Binding
 
-        public static let leading = Edge(rawValue: 1 << 0)
-        public static let trailing = Edge(rawValue: 1 << 1)
-
-        public static let both: Edge = [.leading, .trailing]
-
-        public init(rawValue: UInt) {
-            self.rawValue = rawValue
-        }
-    }
-
-    var edges: Edge = .both
-
-    public init(_ edges: Edge) {
-        self.edges = edges
-    }
-
-    public func body(content: Content) -> some View {
-        HStack {
-            if edges.contains(.leading) {
-                Spacer()
-            }
-            content
-            if edges.contains(.trailing) {
-                Spacer()
-            }
-        }
+    func body(content: Content) -> some View {
+        content
+            .simultaneousGesture(DragGesture().onChanged({ value in
+                focus.wrappedValue = nil
+            }))
     }
 
 }
 
-public extension View {
+extension View {
 
-    func horizontalSpace(_ edges: HorizontalSpace.Edge) -> some View {
-        return modifier(HorizontalSpace(edges))
+    @available(iOS 15, *, macOS 12, *)
+    public func dismissesKeyboard<T: Hashable>(focus: FocusState<T?>.Binding) -> some View {
+        return modifier(DismissesKeyboard(focus: focus))
     }
 
 }
