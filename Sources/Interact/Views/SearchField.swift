@@ -22,6 +22,7 @@ import SwiftUI
 
 #if os(macOS)
 
+/// SwiftUI wrapper for `NSSearchField`.
 public struct SearchField: NSViewRepresentable {
 
     public class Coordinator: NSObject, NSSearchFieldDelegate {
