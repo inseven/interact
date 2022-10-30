@@ -1,6 +1,6 @@
 # Interact
 
-[![update-documentation](https://github.com/inseven/interact/actions/workflows/update-documentation.yaml/badge.svg)](https://github.com/inseven/interact/actions/workflows/update-documentation.yaml) [![Build](https://github.com/inseven/interact/actions/workflows/build.yaml/badge.svg)](https://github.com/inseven/interact/actions/workflows/build.yaml)
+[![Build](https://github.com/inseven/interact/actions/workflows/build.yaml/badge.svg)](https://github.com/inseven/interact/actions/workflows/build.yaml) [![update-documentation](https://github.com/inseven/interact/actions/workflows/update-documentation.yaml/badge.svg)](https://github.com/inseven/interact/actions/workflows/update-documentation.yaml)
 
 SwiftUI package for managing high-level interactions on macOS
 
