@@ -26,4 +26,6 @@ CHANGES_DIRECTORY="${SCRIPTS_DIRECTORY}/changes"
 CHANGES_SCRIPT="${CHANGES_DIRECTORY}/changes"
 RELEASE_SCRIPT="${CHANGES_DIRECTORY}/examples/gh-release.sh"
 
-"${CHANGES_SCRIPT}" --verbose release --skip-if-empty --push --command "\"${RELEASE_SCRIPT}\"" "\"$@\""
+source "${SCRIPTS_DIRECTORY}/environment.sh"
+
+changes --verbose release --skip-if-empty --push --command "\"${RELEASE_SCRIPT}\"" "\"$@\""
