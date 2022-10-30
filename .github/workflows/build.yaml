@@ -11,13 +11,13 @@ on:
 jobs:
   test:
 
-    name: Build package
+    name: build
     runs-on: macOS-ventura
 
     steps:
 
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         submodules: recursive
 
@@ -25,5 +25,5 @@ jobs:
       run: exec ./scripts/build.sh
 
     - name: Release
-      if: github.ref == 'refs/heads/main'
+      # if: github.ref == 'refs/heads/main'
       run: scripts/release.sh
