@@ -21,6 +21,9 @@ jobs:
       with:
         submodules: recursive
 
+    - name: Install dependencies
+      run: scripts/install-dependencies.sh
+
     - name: Build
       run: exec ./scripts/build.sh
 
