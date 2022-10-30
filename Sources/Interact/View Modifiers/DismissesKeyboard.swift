@@ -20,7 +20,7 @@
 
 import SwiftUI
 
-@available(iOS 15, *)
+@available(iOS 15, *, macOS 12, *)
 struct DismissesKeyboard<T: Hashable>: ViewModifier {
 
     var focus: FocusState<T?>.Binding
@@ -36,7 +36,7 @@ struct DismissesKeyboard<T: Hashable>: ViewModifier {
 
 extension View {
 
-    @available(iOS 15, *)
+    @available(iOS 15, *, macOS 12, *)
     public func dismissesKeyboard<T: Hashable>(focus: FocusState<T?>.Binding) -> some View {
         return modifier(DismissesKeyboard(focus: focus))
     }
