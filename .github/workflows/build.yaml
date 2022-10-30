@@ -23,3 +23,7 @@ jobs:
 
     - name: Build
       run: exec ./scripts/build.sh
+
+    - name: Release
+      if: github.ref == 'refs/heads/main'
+      run: scripts/release.sh
