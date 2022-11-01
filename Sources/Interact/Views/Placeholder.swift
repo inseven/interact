@@ -21,19 +21,33 @@
 import SwiftUI
 
 /// Simple placeholder view that displays centered and greyed out text.
-public struct Placeholder: View {
+public struct Placeholder<Content: View>: View {
 
-    private var text: String
+    private let content: () -> Content
 
-    public init(_ text: String) {
-        self.text = text
+    public init(@ViewBuilder content: @escaping () -> Content) {
+        self.content = content
+    }
+
+    public init(_ text: String) where Content == Text {
+        self.init {
+            Text(text)
+        }
     }
 
     public var body: some View {
-        Text(text)
-            .font(.title)
-            .foregroundColor(.secondary)
-            .edgesIgnoringSafeArea(.all)
+        VStack {
+            Spacer()
+            content()
+                .font(.title)
+                .foregroundColor(.secondary)
+                .horizontalSpace(.both)
+            Spacer()
+        }
+#if os(macOS)
+        .background(Color(NSColor.textBackgroundColor))
+#endif
+        .edgesIgnoringSafeArea(.all)
     }
 
 }
