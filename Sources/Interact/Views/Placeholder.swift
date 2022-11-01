@@ -21,15 +21,15 @@
 import SwiftUI
 
 /// Simple placeholder view that displays centered and greyed out text.
-struct Placeholder: View {
+public struct Placeholder: View {
 
-    var text: String
+    private var text: String
 
-    init(_ text: String) {
+    public init(_ text: String) {
         self.text = text
     }
 
-    var body: some View {
+    public var body: some View {
         Text(text)
             .font(.title)
             .foregroundColor(.secondary)
