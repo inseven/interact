@@ -20,24 +20,29 @@
 
 import SwiftUI
 
-#if os(macOS)
-
 public struct IconView: View {
 
-    @StateObject var iconProvider: IconProvider
+    @StateObject var iconViewModel: IconViewModel
     let size: CGSize
 
     public init(url: URL, size: CGSize) {
         self.size = size
-        _iconProvider = StateObject(wrappedValue: IconProvider(url: url, size: size))
+        _iconViewModel = StateObject(wrappedValue: IconViewModel(url: url, size: size))
     }
 
     public var body: some View {
-        Image(nsImage: iconProvider.image)
-            .resizable()
-            .frame(width: size.width, height: size.height)
+        HStack {
+            if let image = iconViewModel.image {
+                image
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+            }
+        }
+        .frame(width: size.width, height: size.height)
+        .runs(iconViewModel)
+        .hookScale { scale in
+            iconViewModel.scale = scale
+        }
     }
 
 }
-
-#endif
