@@ -22,44 +22,6 @@ import SwiftUI
 
 #if os(macOS)
 
-//extension Gesture {
-//
-//    public static func onClick(perform: @escaping ClickCompletion) -> _EndedGesture<TapGesture> {
-//        return TapGesture()
-//            .onEnded(perform)
-//    }
-//
-//    public static func onDoubleClick(perform: @escaping ClickCompletion) -> _EndedGesture<TapGesture> {
-//        TapGesture(count: 2).onEnded(perform)
-//    }
-//
-//    public func onDoubleClick(perform: @escaping ClickCompletion) -> SequenceGesture<Self, _EndedGesture<TapGesture>> {
-//        TapGesture(count:2)
-//            .sequenced(before: self)
-//        sequenced(before: TapGesture(count: 2)
-//                    .onEnded(perform))
-//    }
-//
-//    public func onShiftClick(perform: @escaping ClickCompletion) -> some Gesture {
-//        sequenced(before: TapGesture(count: 1)
-//                    .modifiers(EventModifiers.shift)
-//                    .onEnded(perform))
-//    }
-//
-//    public func onCommandClick(perform: @escaping ClickCompletion) -> some Gesture {
-//        sequenced(before: TapGesture(count: 1)
-//                    .modifiers(EventModifiers.command)
-//                    .onEnded(perform))
-//    }
-//
-//    public func onCommandDoubleClick(perform: @escaping ClickCompletion) -> some Gesture {
-//        sequenced(before: TapGesture(count: 2)
-//                    .modifiers(EventModifiers.command)
-//                    .onEnded(perform))
-//    }
-//
-//}
-
 public typealias ClickCompletion = () -> Void
 
 extension View {
