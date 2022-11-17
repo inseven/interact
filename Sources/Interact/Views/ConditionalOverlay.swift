@@ -20,35 +20,45 @@
 
 import SwiftUI
 
-/// Simple placeholder view that displays centered and greyed out text.
-public struct Placeholder<Content: View>: View {
+@available(macOS 12, *, iOS 15, *)
+struct ConditionalOverlay<PlaceholderContent: View>: ViewModifier {
 
-    private let content: () -> Content
+    var isActive: Bool
+    @ViewBuilder var content: () -> PlaceholderContent
 
-    public init(@ViewBuilder content: @escaping () -> Content) {
+    init(_ isActive: Bool, @ViewBuilder content: @escaping () -> PlaceholderContent) {
+        self.isActive = isActive
         self.content = content
     }
 
-    public init(_ text: String) where Content == Text {
-        self.init {
-            Text(text)
+    func body(content: Content) -> some View {
+        content.overlay {
+            if isActive {
+                Placeholder {
+                    self.content()
+                }
+            }
         }
     }
 
-    public var body: some View {
-        VStack {
-            Spacer()
-            content()
-                .font(.title)
-                .foregroundColor(.secondary)
-                .horizontalSpace(.both)
-            Spacer()
-        }
-#if os(macOS)
-        .background(Color(NSColor.textBackgroundColor))
-#endif
-        .contentShape(Rectangle())
-        .edgesIgnoringSafeArea(.all)
+}
+
+@available(macOS 12, *, iOS 15, *)
+extension View {
+
+    public func progressOverlay(_ isActive: Bool) -> some View {
+        return modifier(ConditionalOverlay(isActive) {
+            Placeholder {
+                ProgressView()
+                    .progressViewStyle(.circular)
+            }
+        })
+    }
+
+    public func placeholderOverlay(_ isActive: Bool, text: String) -> some View {
+        return modifier(ConditionalOverlay(isActive) {
+            Placeholder(text)
+        })
     }
 
 }
