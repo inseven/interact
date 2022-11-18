@@ -41,6 +41,9 @@ public struct IconView: View {
         .frame(width: size.width, height: size.height)
         .runs(iconViewModel)
         .hookScale { scale in
+            guard iconViewModel.scale != scale else {
+                return
+            }
             iconViewModel.scale = scale
         }
     }
