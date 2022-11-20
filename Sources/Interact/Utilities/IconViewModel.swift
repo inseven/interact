@@ -40,6 +40,11 @@ class IconViewModel: ObservableObject, Runnable {
     }
 
     @MainActor func start() {
+
+#if os(macOS)
+        self.image = Image(nsImage: NSWorkspace.shared.icon(forFile: self.url.path))
+#endif
+
         $scale
             .receive(on: DispatchQueue.main)
             .sink { scale in
