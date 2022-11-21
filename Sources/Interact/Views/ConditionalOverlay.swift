@@ -51,6 +51,7 @@ extension View {
             Placeholder {
                 ProgressView()
                     .progressViewStyle(.circular)
+                    .controlSize(.large)
             }
         })
     }
