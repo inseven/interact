@@ -30,7 +30,7 @@ class IconViewModel: ObservableObject, Runnable {
 
     @MainActor private var request: QLThumbnailGenerator.Request?
     @MainActor private var requestedScale: CGFloat = 0.0
-    @MainActor private var cancelables: Set<AnyCancellable> = []
+    @MainActor private var cancellables: Set<AnyCancellable> = []
 
     @Published var image: Image?
 
@@ -50,11 +50,11 @@ class IconViewModel: ObservableObject, Runnable {
             .sink { scale in
                 self.request(scale: scale)
             }
-            .store(in: &cancelables)
+            .store(in: &cancellables)
     }
 
     @MainActor func stop() {
-        cancelables.removeAll()
+        cancellables.removeAll()
         cancelRequest()
     }
 
