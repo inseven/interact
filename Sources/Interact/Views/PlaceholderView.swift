@@ -21,7 +21,7 @@
 import SwiftUI
 
 /// Simple placeholder view that displays centered and greyed out text.
-public struct Placeholder<Content: View>: View {
+public struct PlaceholderView<Content: View>: View {
 
     private let content: () -> Content
 

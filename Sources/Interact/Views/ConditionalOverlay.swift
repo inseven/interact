@@ -34,7 +34,7 @@ struct ConditionalOverlay<PlaceholderContent: View>: ViewModifier {
     func body(content: Content) -> some View {
         content.overlay {
             if isActive {
-                Placeholder {
+                PlaceholderView {
                     self.content()
                 }
             }
@@ -48,7 +48,7 @@ extension View {
 
     public func progressOverlay(_ isActive: Bool) -> some View {
         return modifier(ConditionalOverlay(isActive) {
-            Placeholder {
+            PlaceholderView {
                 ProgressView()
                     .progressViewStyle(.circular)
                     .controlSize(.large)
@@ -58,7 +58,7 @@ extension View {
 
     public func placeholderOverlay(_ isActive: Bool, text: String) -> some View {
         return modifier(ConditionalOverlay(isActive) {
-            Placeholder(text)
+            PlaceholderView(text)
         })
     }
 
