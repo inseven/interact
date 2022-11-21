@@ -46,8 +46,9 @@ public struct Placeholder<Content: View>: View {
         }
 #if os(macOS)
         .background(Color(NSColor.textBackgroundColor))
+#else
+        .background(Color(UIColor.systemBackground))
 #endif
-        .contentShape(Rectangle())
         .edgesIgnoringSafeArea(.all)
     }
 
