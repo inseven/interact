@@ -20,8 +20,6 @@
 
 import SwiftUI
 
-#if os(macOS)
-
 public typealias ClickCompletion = () -> Void
 
 extension View {
@@ -33,6 +31,8 @@ extension View {
     public func eraseToAnyView() -> AnyView {
         return AnyView(self)
     }
+
+#if os(macOS)
 
     public func handleMouse(click: @escaping ClickCompletion,
                             doubleClick: @escaping ClickCompletion = {},
@@ -51,6 +51,19 @@ extension View {
                                                         .onEnded(doubleClick))))
     }
 
-}
+#endif
+
+#if os(iOS)
+
+    @available(iOS 15.0, *)
+    public func defaultFocus<V>(_ focus: FocusState<V>.Binding, _ value: V) -> some View {
+        return onAppear {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                focus.wrappedValue = value
+            }
+        }
+    }
 
 #endif
+
+}
