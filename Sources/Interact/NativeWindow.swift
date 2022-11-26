@@ -32,7 +32,7 @@ extension NativeWindow {
 #if os(macOS)
         return backingScaleFactor
 #else
-        return contentScaleFactor
+        return screen.scale
 #endif
     }
 

@@ -26,7 +26,12 @@ class IconViewModel: ObservableObject, Runnable {
 
     private let url: URL
     private let size: CGSize
+
+#if os(macOS)
     @MainActor @Published public var scale: CGFloat = 2.0
+#else
+    @MainActor @Published public var scale: CGFloat = 3.0
+#endif
 
     @MainActor private var request: QLThumbnailGenerator.Request?
     @MainActor private var requestedScale: CGFloat = 0.0
