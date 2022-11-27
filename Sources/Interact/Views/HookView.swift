@@ -24,6 +24,12 @@ import SwiftUI
 
 public struct HookView: NSViewRepresentable {
 
+    struct ViewState {
+        weak var nsView: NSView?
+    }
+
+    @State var viewState = ViewState()
+
     let action: (NSView) -> Void?
 
     public init(action: @escaping (NSView) -> Void?) {
@@ -36,6 +42,10 @@ public struct HookView: NSViewRepresentable {
 
     public func updateNSView(_ nsView: NSView, context: Context) {
         DispatchQueue.main.async {
+            guard self.viewState.nsView != nsView else {
+                return
+            }
+            self.viewState.nsView = nsView
             self.action(nsView)
         }
     }
@@ -44,6 +54,12 @@ public struct HookView: NSViewRepresentable {
 #else
 
 public struct HookView: UIViewRepresentable {
+
+    struct ViewState {
+        weak var uiView: UIView?
+    }
+
+    @State var viewState = ViewState()
 
     let action: (UIView) -> Void?
 
@@ -57,6 +73,10 @@ public struct HookView: UIViewRepresentable {
 
     public func updateUIView(_ uiView: UIView, context: Context) {
         DispatchQueue.main.async {
+            guard self.viewState.uiView != uiView else {
+                return
+            }
+            self.viewState.uiView = uiView
             self.action(uiView)
         }
     }
@@ -67,9 +87,7 @@ public struct HookView: UIViewRepresentable {
 extension View {
 
     public func hookView(action: @escaping (NativeView) -> Void) -> some View {
-        let view = HookView(action: action)
-            .frame(width: 0, height: 0)
-        return overlay(view)
+        return background(HookView(action: action))
     }
 
     public func hookWindow(action: @escaping (NativeWindow) -> Void) -> some View {
