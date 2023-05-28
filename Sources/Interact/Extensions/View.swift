@@ -32,6 +32,13 @@ extension View {
         return AnyView(self)
     }
 
+    @available(iOS 15.0, *, macOS 13.0, *)
+    public func searchable() -> some View {
+        return self
+            .searchable(text: Binding.constant(""))
+            .disabled(true)
+    }
+
 #if os(macOS)
 
     public func handleMouse(click: @escaping ClickCompletion,
