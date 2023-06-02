@@ -32,8 +32,22 @@ public class KeyedDefaults<Key: RawRepresentable> where Key.RawValue == String {
         return defaults.bool(forKey: key.rawValue)
     }
 
+    public func bool(forKey key: Key, default defaultValue: Bool) -> Bool {
+        guard let value = object(forKey: key) as? Bool else {
+            return defaultValue
+        }
+        return value
+    }
+
     public func integer(forKey key: Key) -> Int {
         return defaults.integer(forKey: key.rawValue)
+    }
+
+    public func integer(forKey key: Key, default defaultValue: Int) -> Int {
+        guard let value = object(forKey: key) as? Int else {
+            return defaultValue
+        }
+        return value
     }
 
     public func object(forKey key: Key) -> Any? {
