@@ -33,10 +33,7 @@ public class KeyedDefaults<Key: RawRepresentable> where Key.RawValue == String {
     }
 
     public func bool(forKey key: Key, default defaultValue: Bool) -> Bool {
-        guard let value = object(forKey: key) as? Bool else {
-            return defaultValue
-        }
-        return value
+        return (object(forKey: key) as? Bool) ?? defaultValue
     }
 
     public func integer(forKey key: Key) -> Int {
@@ -44,10 +41,7 @@ public class KeyedDefaults<Key: RawRepresentable> where Key.RawValue == String {
     }
 
     public func integer(forKey key: Key, default defaultValue: Int) -> Int {
-        guard let value = object(forKey: key) as? Int else {
-            return defaultValue
-        }
-        return value
+        return (object(forKey: key) as? Int) ?? defaultValue
     }
 
     public func object(forKey key: Key) -> Any? {
@@ -58,8 +52,27 @@ public class KeyedDefaults<Key: RawRepresentable> where Key.RawValue == String {
         return defaults.string(forKey: key.rawValue)
     }
 
+    public func string(forKey key: Key, default defaultValue: String) -> String {
+        return string(forKey: key) ?? defaultValue
+    }
+
+    public func value<T: RawRepresentable>(forKey key: Key) -> T? where T.RawValue == String {
+        guard let rawValue = string(forKey: key) else {
+            return nil
+        }
+        return T(rawValue: rawValue)
+    }
+
+    public func value<T: RawRepresentable>(forKey key: Key, default defaultValue: T) -> T where T.RawValue == String {
+        return value(forKey: key) ?? defaultValue
+    }
+
     public func set(_ value: Any?, forKey key: Key) {
         defaults.set(value, forKey: key.rawValue)
+    }
+
+    public func set<T: RawRepresentable>(_ value: T, forKey key: Key) where T.RawValue == String {
+        defaults.set(value.rawValue, forKey: key.rawValue)
     }
 
 }
