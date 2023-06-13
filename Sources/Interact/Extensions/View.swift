@@ -32,6 +32,12 @@ extension View {
         return AnyView(self)
     }
 
+    public func presents(_ error: Binding<Error?>) -> some View {
+        return alert(isPresented: error.bool()) {
+            Alert(error: error.wrappedValue)
+        }
+    }
+
     @available(iOS 15.0, *, macOS 13.0, *)
     public func searchable() -> some View {
         return self
