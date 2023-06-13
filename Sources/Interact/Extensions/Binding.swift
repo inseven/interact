@@ -37,9 +37,66 @@ extension Binding {
 
 }
 
+extension Binding where Value == Bool {
+
+    init(_ array: Binding<Array<String>>, contains value: String) {
+        self.init {
+            array.wrappedValue.contains(value)
+        } set: { active in
+            if active {
+                array.wrappedValue.append(value)
+            } else {
+                array.wrappedValue.removeAll { $0 == value }
+            }
+        }
+    }
+
+    init<T: Equatable>(_ binding: Binding<T>, equals value: T) {
+        self.init {
+            binding.wrappedValue == value
+        } set: { active in
+            if active {
+                binding.wrappedValue = value
+            }
+        }
+    }
+
+    init<T>(_ binding: Binding<T?>) {
+        self.init {
+            binding.wrappedValue != nil
+        } set: { active in
+            if !active {
+                binding.wrappedValue = nil
+            }
+        }
+    }
+
+}
+
+extension Binding where Value == Array<String> {
+
+    public func contains(_ value: String) -> Binding<Bool> {
+        return Binding<Bool>(self, contains: value)
+    }
+
+}
+
+extension Binding where Value: Equatable {
+
+    public func equals(_ value: Value) -> Binding<Bool> {
+        return Binding<Bool>(self, equals: value)
+    }
+
+}
+
 extension Binding {
+
+    public func bool<T>() -> Binding<Bool> where Value == T? {
+        return Binding<Bool>(self)
+    }
 
     public func undoable(_ undoManager: UndoManager?, context: UndoContext) -> Binding<Value> {
         return Binding(wrapped: self, undoManager: undoManager, context: context)
     }
+
 }
