@@ -49,7 +49,7 @@ public struct PlaceholderView<Content: View>: View {
 #else
         .background(Color(UIColor.systemBackground))
 #endif
-        .edgesIgnoringSafeArea(.all)
+        .ignoresSafeArea(.container)
     }
 
 }
