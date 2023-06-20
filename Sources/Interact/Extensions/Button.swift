@@ -20,10 +20,11 @@
 
 import SwiftUI
 
+@available(iOS 15, *, macOS 13, *)
 extension Button {
 
-    public init(action: @escaping () async -> Void, @ViewBuilder label: () -> Label) {
-        self.init {
+    public init(role: ButtonRole? = nil, action: @escaping () async -> Void, @ViewBuilder label: () -> Label) {
+        self.init(role: role) {
             Task {
                 await action()
             }
@@ -34,6 +35,7 @@ extension Button {
 
 }
 
+@available(iOS 15, *, macOS 13, *)
 extension Button where Label == Text {
 
     public init<S>(_ title: S, action: @escaping () async -> Void) where S : StringProtocol {
