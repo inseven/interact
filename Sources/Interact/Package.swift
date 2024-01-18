@@ -1,4 +1,4 @@
-// Copyright (c) 2018-2023 InSeven Limited
+// Copyright (c) 2018-2024 Jason Morley
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,7 @@ import Foundation
 public struct Package {
 
     public static let name = "Interact"
-    public static let author = "InSeven Limited"
+    public static let author = "Jason Morley"
 
     public static var licenseURL: URL {
         return Bundle.module.url(forResource: "LICENSE", withExtension: nil)!
