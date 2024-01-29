@@ -18,9 +18,38 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+import ServiceManagement
 import SwiftUI
 
-public struct Application {
+public class Application: ObservableObject {
+
+    public static var shared = Application()
+
+    @available(macOS 13.0, *)
+    @available(iOS, unavailable)
+    @available(tvOS, unavailable)
+    @available(watchOS, unavailable)
+    @available(visionOS, unavailable)
+    @MainActor public var openAtLogin: Bool {
+        get {
+            return SMAppService.mainApp.status == .enabled
+        }
+        set {
+            objectWillChange.send()
+            do {
+                if newValue {
+                    if SMAppService.mainApp.status == .enabled {
+                        try? SMAppService.mainApp.unregister()
+                    }
+                    try SMAppService.mainApp.register()
+                } else {
+                    try SMAppService.mainApp.unregister()
+                }
+            } catch {
+                print("Failed to update service with error \(error).")
+            }
+        }
+    }
 
     public static func open(_ url: URL) {
 #if os(macOS)
