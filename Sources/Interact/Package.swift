@@ -32,12 +32,13 @@ public struct Package {
 }
 
 #if canImport(Diligence)
+
 import Diligence
 
-extension Package {
+extension License {
 
-    public static var license: License {
-        return License(name, author: author, url: licenseURL)
+    public static var interact: License {
+        return License(Package.name, author: Package.author, url: Package.licenseURL)
     }
 
 }
