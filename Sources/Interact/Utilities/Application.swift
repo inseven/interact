@@ -18,12 +18,17 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-import ServiceManagement
 import SwiftUI
+
+#if canImport(ServiceManagement)
+import ServiceManagement
+#endif
 
 public class Application: ObservableObject {
 
     public static var shared = Application()
+
+#if canImport(ServiceManagement)
 
     @available(macOS 13.0, *)
     @available(iOS, unavailable)
@@ -50,6 +55,8 @@ public class Application: ObservableObject {
             }
         }
     }
+
+#endif
 
     public static func open(_ url: URL) {
 #if os(macOS)
