@@ -30,3 +30,16 @@ public struct Package {
     }
 
 }
+
+#if canImport(Diligence)
+import Diligence
+
+extension Package {
+
+    public static var license: License {
+        return License(name, author: author, url: licenseURL)
+    }
+
+}
+
+#endif
