@@ -30,17 +30,3 @@ public struct Package {
     }
 
 }
-
-#if canImport(Diligence)
-
-import Diligence
-
-extension License {
-
-    public static var interact: License {
-        return License(Package.name, author: Package.author, url: Package.licenseURL)
-    }
-
-}
-
-#endif
