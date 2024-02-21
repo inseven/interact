@@ -22,13 +22,24 @@ import Foundation
 
 import Licensable
 
-public struct Package {
+extension Licensable where Self == License {
 
-    public static let name = "Interact"
-    public static let author = "Jason Morley"
+    public static var interact: License {
+        return License(id: "https://github.com/inseven/interact",
+                       name: Package.name,
+                       author: Package.author,
+                       text: try! String(contentsOf: Package.licenseURL))
+    }
 
-    public static var licenseURL: URL {
-        return Bundle.module.url(forResource: "LICENSE", withExtension: nil)!
+    public static var fromage: License {
+        return License(id: "https://github.com/inseven/fromage",
+                       name: "Fromage",
+                       author: Package.author,
+                       text: try! String(contentsOf: Package.licenseURL))
+    }
+
+    public static var interactLicenses: [License] {
+        return [.interact, .fromage]
     }
 
 }
