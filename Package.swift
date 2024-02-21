@@ -15,7 +15,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.0.0"),
-        .package(url: "https://github.com/inseven/licensable", from: "0.0.9"),
+        .package(url: "https://github.com/inseven/licensable", from: "0.0.11"),
     ],
     targets: [
         .target(
