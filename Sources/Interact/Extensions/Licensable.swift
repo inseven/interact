@@ -29,9 +29,6 @@ extension Licensable where Self == License {
                        name: Package.name,
                        author: Package.author,
                        text: try! String(contentsOf: Package.licenseURL),
-                       attributes: [
-                           .text("2018-2024 Jason Morley", title: "Copyright")
-                       ],
                        licensaes: [
                            .licensable
                        ])

@@ -20,8 +20,6 @@
 
 import Foundation
 
-import Licensable
-
 public struct Package {
 
     public static let name = "Interact"
