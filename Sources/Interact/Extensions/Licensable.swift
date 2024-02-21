@@ -29,8 +29,11 @@ extension Licensable where Self == License {
                        name: Package.name,
                        author: Package.author,
                        text: try! String(contentsOf: Package.licenseURL),
+                       attributes: [
+                           .url(URL(string: "https://github.com/inseven/interact")!, title: "GitHub"),
+                       ],
                        licensaes: [
-                           .licensable
+                           .licensable,
                        ])
     }
 
