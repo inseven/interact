@@ -28,18 +28,13 @@ extension Licensable where Self == License {
         return License(id: "https://github.com/inseven/interact",
                        name: Package.name,
                        author: Package.author,
-                       text: try! String(contentsOf: Package.licenseURL))
-    }
-
-    public static var fromage: License {
-        return License(id: "https://github.com/inseven/fromage",
-                       name: "Fromage",
-                       author: Package.author,
-                       text: try! String(contentsOf: Package.licenseURL))
-    }
-
-    public static var interactLicenses: [License] {
-        return [.interact, .fromage]
+                       text: try! String(contentsOf: Package.licenseURL),
+                       attributes: [
+                           .text("2018-2024 Jason Morley", title: "Copyright")
+                       ],
+                       licensaes: [
+                           .licensable
+                       ])
     }
 
 }
