@@ -32,7 +32,7 @@ extension Licensable where Self == License {
                        attributes: [
                            .url(URL(string: "https://github.com/inseven/interact")!, title: "GitHub"),
                        ],
-                       licensaes: [
+                       licenses: [
                            .licensable,
                        ])
     }
