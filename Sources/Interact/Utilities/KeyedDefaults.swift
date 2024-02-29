@@ -67,12 +67,28 @@ public class KeyedDefaults<Key: RawRepresentable> where Key.RawValue == String {
         return value(forKey: key) ?? defaultValue
     }
 
+    public func codable<T: Codable>(forKey key: Key) throws -> T? {
+        guard let data = object(forKey: key) as? Data else {
+            return nil
+        }
+        return try JSONDecoder().decode(T.self, from: data)
+    }
+
+    public func codable<T: Codable>(forKey key: Key, default defaultValue: T) throws -> T? {
+        return try codable(forKey: key) ?? defaultValue
+    }
+
     public func set(_ value: Any?, forKey key: Key) {
         defaults.set(value, forKey: key.rawValue)
     }
 
     public func set<T: RawRepresentable>(_ value: T, forKey key: Key) where T.RawValue == String {
         defaults.set(value.rawValue, forKey: key.rawValue)
+    }
+
+    public func set<T: Codable>(codable: T, forKey key: Key) throws {
+        let data = try JSONEncoder().encode(codable)
+        set(data, forKey: key)
     }
 
 }
