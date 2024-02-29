@@ -74,7 +74,7 @@ public class KeyedDefaults<Key: RawRepresentable> where Key.RawValue == String {
         return try JSONDecoder().decode(T.self, from: data)
     }
 
-    public func codable<T: Codable>(forKey key: Key, default defaultValue: T) throws -> T? {
+    public func codable<T: Codable>(forKey key: Key, default defaultValue: T) throws -> T {
         return try codable(forKey: key) ?? defaultValue
     }
 
