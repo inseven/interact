@@ -32,6 +32,11 @@ extension View {
         return AnyView(self)
     }
 
+    public func handlesExternalEvents(preferring: Set<URL>, allowing: Set<URL>) -> some View {
+        return handlesExternalEvents(preferring: Set(preferring.map { $0.absoluteString }),
+                                     allowing: Set(allowing.map { $0.absoluteString }))
+    }
+
     public func presents(_ error: Binding<Error?>) -> some View {
         return alert(isPresented: error.bool()) {
             Alert(error: error.wrappedValue)
