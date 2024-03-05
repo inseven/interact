@@ -37,4 +37,22 @@ extension Array {
         }
     }
 
+    public func compactMap<T>(_ transform: @escaping (Element) async throws -> T?) async rethrows -> [T] {
+        return try await withThrowingTaskGroup(of: T?.self) { group in
+            for element in self {
+                group.addTask {
+                    return try await transform(element)
+                }
+            }
+            var items = [T]()
+            for try await item in group {
+                guard let item else {
+                    continue
+                }
+                items.append(item)
+            }
+            return items
+        }
+    }
+
 }
