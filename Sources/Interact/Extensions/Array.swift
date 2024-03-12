@@ -20,6 +20,37 @@
 
 import Foundation
 
+extension Collection {
+
+    public func map<T>(_ transform: @escaping (Element) async throws -> T) async rethrows -> [T] {
+        return try await withThrowingTaskGroup(of: T.self) { group in
+            for element in self {
+                group.addTask {
+                    return try await transform(element)
+                }
+            }
+            var items = [T]()
+            for try await item in group {
+                items.append(item)
+            }
+            return items
+        }
+    }
+
+    public func forEach(_ perform: @escaping (Element) async throws -> Void) async rethrows {
+        return try await withThrowingTaskGroup(of: Void.self) { group in
+            for element in self {
+                group.addTask {
+                    try await perform(element)
+                    return ()
+                }
+            }
+            try await group.waitForAll()
+        }
+    }
+
+}
+
 extension Array {
 
     public func map<T>(_ transform: @escaping (Element) async throws -> T) async rethrows -> [T] {
