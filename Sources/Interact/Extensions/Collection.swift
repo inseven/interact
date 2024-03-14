@@ -20,9 +20,9 @@
 
 import Foundation
 
-extension Array {
+extension Collection {
 
-    public func map<T>(_ transform: @escaping (Element) async throws -> T) async rethrows -> [T] {
+    public func asyncMap<T>(_ transform: @escaping (Element) async throws -> T) async rethrows -> [T] {
         return try await withThrowingTaskGroup(of: T.self) { group in
             for element in self {
                 group.addTask {
@@ -37,7 +37,7 @@ extension Array {
         }
     }
 
-    public func compactMap<T>(_ transform: @escaping (Element) async throws -> T?) async rethrows -> [T] {
+    public func asyncCompactMap<T>(_ transform: @escaping (Element) async throws -> T?) async rethrows -> [T] {
         return try await withThrowingTaskGroup(of: T?.self) { group in
             for element in self {
                 group.addTask {
@@ -52,6 +52,18 @@ extension Array {
                 items.append(item)
             }
             return items
+        }
+    }
+
+    public func asyncForEach(_ perform: @escaping (Element) async throws -> Void) async rethrows {
+        return try await withThrowingTaskGroup(of: Void.self) { group in
+            for element in self {
+                group.addTask {
+                    try await perform(element)
+                    return ()
+                }
+            }
+            try await group.waitForAll()
         }
     }
 
