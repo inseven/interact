@@ -18,7 +18,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-//import Foundation
 import SwiftUI
 
 @available(iOS 15, *, macOS 12, *)
@@ -33,6 +32,7 @@ public struct MenuItem: Identifiable {
 
     public let itemType: ItemType
     public var isDisabled: Bool = false
+    public var underlyingKeyboardShortcut: KeyboardShortcut?
 
     public init(_ title: LocalizedStringKey, systemImage: String? = nil, role: ButtonRole? = nil, action: @escaping () -> Void) {
         self.itemType = .item(title.localized ?? "", systemImage, role, action)
@@ -53,6 +53,12 @@ public struct MenuItem: Identifiable {
     public func disabled(_ isDisabled: Bool) -> Self {
         var menuItem = self
         menuItem.isDisabled = isDisabled
+        return menuItem
+    }
+
+    public func keyboardShortcut(_ key: KeyEquivalent, modifiers: EventModifiers = .command) -> MenuItem {
+        var menuItem = self
+        menuItem.underlyingKeyboardShortcut = KeyboardShortcut(key, modifiers: modifiers)
         return menuItem
     }
 
@@ -101,6 +107,7 @@ extension Array where Element == MenuItem {
                         Text(title)
                     }
                 }
+                .keyboardShortcut(menuItem.underlyingKeyboardShortcut)
             case .separator:
                 Divider()
             }
