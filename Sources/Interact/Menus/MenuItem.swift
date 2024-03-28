@@ -108,6 +108,7 @@ extension Array where Element == MenuItem {
                     }
                 }
                 .keyboardShortcut(menuItem.underlyingKeyboardShortcut)
+                .disabled(menuItem.isDisabled)
             case .separator:
                 Divider()
             }
