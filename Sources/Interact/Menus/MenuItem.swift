@@ -26,6 +26,7 @@ public struct MenuItem: Identifiable {
     public enum ItemType {
         case item(String, String?, ButtonRole?, () -> Void)
         case separator
+        case menu(String, [MenuItem])
     }
 
     public let id = UUID()
@@ -36,6 +37,10 @@ public struct MenuItem: Identifiable {
 
     public init(_ title: LocalizedStringKey, systemImage: String? = nil, role: ButtonRole? = nil, action: @escaping () -> Void) {
         self.itemType = .item(title.localized ?? "", systemImage, role, action)
+    }
+
+    public init(_ title: LocalizedStringKey, @MenuItemBuilder items: () -> [MenuItem]) {
+        self.itemType = .menu(title.localized ?? "", items())
     }
 
     public init(_ title: String, action: @escaping () async -> Void) {
@@ -97,22 +102,7 @@ extension Divider: MenuItemsConvertible {
 extension Array where Element == MenuItem {
 
     @ViewBuilder public func asContextMenu() -> some View {
-        ForEach(self) { menuItem in
-            switch menuItem.itemType {
-            case .item(let title, let systemImage, let role, let action):
-                Button(role: role, action: action) {
-                    if let systemImage {
-                        Label(title, systemImage: systemImage)
-                    } else {
-                        Text(title)
-                    }
-                }
-                .keyboardShortcut(menuItem.underlyingKeyboardShortcut)
-                .disabled(menuItem.isDisabled)
-            case .separator:
-                Divider()
-            }
-        }
+        MenuView(menuItems: self)
     }
     
 }
