@@ -26,7 +26,7 @@ public struct MenuItem: Identifiable {
     public enum ItemType {
         case item(String, String?, ButtonRole?, () -> Void)
         case separator
-        case menu(String, [MenuItem])
+        case menu(String, String?, [MenuItem])
     }
 
     public let id = UUID()
@@ -39,8 +39,8 @@ public struct MenuItem: Identifiable {
         self.itemType = .item(title.localized ?? "", systemImage, role, action)
     }
 
-    public init(_ title: LocalizedStringKey, @MenuItemBuilder items: () -> [MenuItem]) {
-        self.itemType = .menu(title.localized ?? "", items())
+    public init(_ title: LocalizedStringKey, systemImage: String? = nil, @MenuItemBuilder items: () -> [MenuItem]) {
+        self.itemType = .menu(title.localized ?? "", systemImage, items())
     }
 
     public init(_ title: String, action: @escaping () async -> Void) {

@@ -40,9 +40,15 @@ struct MenuView: View {
                 .disabled(menuItem.isDisabled)
             case .separator:
                 Divider()
-            case .menu(let title, let items):
-                Menu(title) {
-                    MenuView(menuItems: items)
+            case .menu(let title, let systemImage, let items):
+                if let systemImage {
+                    Menu(title, systemImage: systemImage) {
+                        MenuView(menuItems: items)
+                    }
+                } else {
+                    Menu(title) {
+                        MenuView(menuItems: items)
+                    }
                 }
             }
         }
