@@ -39,8 +39,16 @@ public struct MenuItem: Identifiable {
         self.itemType = .item(title.localized ?? "", systemImage, role, action)
     }
 
+    public init(_ title: String, systemImage: String? = nil, role: ButtonRole? = nil, action: @escaping () -> Void) {
+        self.itemType = .item(title ?? "", systemImage, role, action)
+    }
+
     public init(_ title: LocalizedStringKey, systemImage: String? = nil, @MenuItemBuilder items: () -> [MenuItem]) {
         self.itemType = .menu(title.localized ?? "", systemImage, items())
+    }
+
+    public init(_ title: String, systemImage: String? = nil, @MenuItemBuilder items: () -> [MenuItem]) {
+        self.itemType = .menu(title ?? "", systemImage, items())
     }
 
     public init(_ title: String, action: @escaping () async -> Void) {
