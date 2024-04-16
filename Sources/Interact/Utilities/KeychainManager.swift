@@ -22,31 +22,54 @@ import Foundation
 
 public struct KeychainManager<Key: RawRepresentable> where Key.RawValue == String {
 
-    public init() {
-        
+    public enum AccessPolicy {
+        case whenUnlocked
+        case afterFirstUnlock
+
+        var value: CFString {
+            switch self {
+            case .whenUnlocked:
+                return kSecAttrAccessibleWhenUnlocked
+            case .afterFirstUnlock:
+                return kSecAttrAccessibleAfterFirstUnlock
+            }
+        }
+    }
+
+    let accessGroup: String?
+
+    public init(accessGroup: String? = nil) {
+        self.accessGroup = accessGroup
     }
 
     func delete(key: Key) throws {
-        let query: [String: Any] = [
+        var query: [String: Any] = [
             kSecAttrSynchronizable as String: kCFBooleanTrue,
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrAccount as String: key.rawValue,
         ]
+        if let accessGroup {
+            query[kSecAttrAccessGroup as String] = accessGroup
+        }
         let status = SecItemDelete(query as CFDictionary)
         guard status == errSecSuccess else {
             throw KeychainError(status: status)
         }
     }
 
-    public func set(_ value: String?, forKey key: Key) throws {
+    public func set(_ value: String?, forKey key: Key, accessPolicy: AccessPolicy = .whenUnlocked) throws {
         if let value {
             let data = value.data(using: .utf8)!
-            let query: [String: Any] = [
+            var query: [String: Any] = [
                 kSecAttrSynchronizable as String: kCFBooleanTrue,
                 kSecClass as String: kSecClassGenericPassword,
+                kSecAttrAccessible as String: accessPolicy.value,
                 kSecAttrAccount as String: key.rawValue,
                 kSecValueData as String: data
             ]
+            if let accessGroup {
+                query[kSecAttrAccessGroup as String] = accessGroup
+            }
             SecItemDelete(query as CFDictionary)
             let status = SecItemAdd(query as CFDictionary, nil)
             guard status == errSecSuccess else {
@@ -58,13 +81,16 @@ public struct KeychainManager<Key: RawRepresentable> where Key.RawValue == Strin
     }
 
     public func string(forKey key: Key) throws -> String? {
-        let query: [String: Any] = [
+        var query: [String: Any] = [
             kSecAttrSynchronizable as String: kCFBooleanTrue,
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrAccount as String: key.rawValue,
             kSecReturnData as String: kCFBooleanTrue!,
             kSecMatchLimit as String: kSecMatchLimitOne
         ]
+        if let accessGroup {
+            query[kSecAttrAccessGroup as String] = accessGroup
+        }
         var item: AnyObject?
         let status = SecItemCopyMatching(query as CFDictionary, &item)
         guard status == errSecSuccess else {
