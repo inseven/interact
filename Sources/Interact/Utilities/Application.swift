@@ -31,6 +31,7 @@ public class Application: ObservableObject {
 #if canImport(ServiceManagement)
 
     @available(macOS 13.0, *)
+    @available(macCatalyst 16.0, *)
     @available(iOS, unavailable)
     @available(tvOS, unavailable)
     @available(watchOS, unavailable)
