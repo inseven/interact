@@ -26,6 +26,51 @@ import ServiceManagement
 
 public class Application: ObservableObject {
 
+    public static func open(_ url: URL) {
+#if os(macOS)
+        NSWorkspace.shared.open(url)
+#else
+        UIApplication.shared.open(url)
+#endif
+    }
+
+    public static func registerForRemoteNotifications() {
+#if os(macOS)
+        NSApplication.shared.registerForRemoteNotifications()
+#else
+        UIApplication.shared.registerForRemoteNotifications()
+#endif
+    }
+
+    public static func reveal(_ url: URL) {
+#if os(macOS)
+        NSWorkspace.shared.activateFileViewerSelecting([url])
+#else
+        assertionFailure("Unsupported")
+#endif
+    }
+
+    public static func setBadgeNumber(_ badgeNumber: Int) {
+#if os(macOS)
+        if badgeNumber == 0 {
+            NSApplication.shared.dockTile.badgeLabel = nil
+        } else {
+            NSApplication.shared.dockTile.badgeLabel = String(describing: badgeNumber)
+        }
+#else
+        UIApplication.shared.applicationIconBadgeNumber = badgeNumber
+#endif
+    }
+
+    public static func setClipboard(_ value: String) {
+#if os(macOS)
+        NSPasteboard.general.clearContents()
+        NSPasteboard.general.setString(value, forType: .string)
+#else
+        UIPasteboard.general.string = value
+#endif
+    }
+
     public static var shared = Application()
 
 #if canImport(ServiceManagement)
@@ -58,42 +103,5 @@ public class Application: ObservableObject {
     }
 
 #endif
-
-    public static func open(_ url: URL) {
-#if os(macOS)
-        NSWorkspace.shared.open(url)
-#else
-        UIApplication.shared.open(url)
-#endif
-    }
-
-    public static func reveal(_ url: URL) {
-#if os(macOS)
-        NSWorkspace.shared.activateFileViewerSelecting([url])
-#else
-        assertionFailure("Unsupported")
-#endif
-    }
-
-    public static func setClipboard(_ value: String) {
-#if os(macOS)
-        NSPasteboard.general.clearContents()
-        NSPasteboard.general.setString(value, forType: .string)
-#else
-        UIPasteboard.general.string = value
-#endif
-    }
-
-    public static func setBadgeNumber(_ badgeNumber: Int) {
-#if os(macOS)
-        if badgeNumber == 0 {
-            NSApplication.shared.dockTile.badgeLabel = nil
-        } else {
-            NSApplication.shared.dockTile.badgeLabel = String(describing: badgeNumber)
-        }
-#else
-        UIApplication.shared.applicationIconBadgeNumber = badgeNumber
-#endif
-    }
 
 }
