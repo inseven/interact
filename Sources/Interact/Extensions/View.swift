@@ -43,6 +43,17 @@ extension View {
         }
     }
 
+    @available(macOS 13, *)
+    public func allowsApplicationTerminationWhenModal() -> some View {
+#if os(macOS)
+        hookWindow { window in
+            window.preventsApplicationTerminationWhenModal = false
+        }
+#else
+        return self
+#endif
+    }
+
     @available(iOS 15.0, *, macOS 13.0, *)
     public func searchable() -> some View {
         return self
