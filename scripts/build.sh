@@ -11,4 +11,4 @@ cd "$ROOT_DIRECTORY"
 
 xcodebuild -scheme Interact -showdestinations
 xcodebuild -scheme Interact -destination "platform=macOS" clean build
-xcodebuild -scheme Interact -destination "platform=iOS Simulator,name=iPhone 14 Pro" clean build
+xcodebuild -scheme Interact -destination "$DEFAULT_IPHONE_DESTINATION" clean build
