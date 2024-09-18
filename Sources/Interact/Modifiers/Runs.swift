@@ -20,7 +20,7 @@
 
 import SwiftUI
 
-public protocol Runnable {
+@MainActor public protocol Runnable {
 
     func start()
     func stop()
