@@ -27,10 +27,7 @@ extension QLThumbnailGenerator {
                                         size: CGSize,
                                         scale: CGFloat,
                                         iconMode: Bool) async throws -> QLThumbnailRepresentation {
-        let request = QLThumbnailGenerator.Request(fileAt: url,
-                                                   size: size,
-                                                   scale: scale,
-                                                   representationTypes: .thumbnail)
+        let request = Request(fileAt: url, size: size, scale: scale, representationTypes: .thumbnail)
         request.iconMode = iconMode
         return try await withTaskCancellationHandler {
             try await withCheckedThrowingContinuation { continuation in
