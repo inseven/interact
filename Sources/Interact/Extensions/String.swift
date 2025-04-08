@@ -22,6 +22,13 @@ import Foundation
 
 extension String {
 
+    public init?(contentsOfResource resource: String, bundle: Bundle = Bundle.main) {
+        guard let url = bundle.url(forResource: resource, withExtension: nil) else {
+            return nil
+        }
+        try? self.init(contentsOf: url)
+    }
+
     public var deletingPathExtension: String {
         (self as NSString).deletingPathExtension
     }
