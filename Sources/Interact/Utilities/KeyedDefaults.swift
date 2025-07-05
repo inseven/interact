@@ -91,4 +91,29 @@ public class KeyedDefaults<Key: RawRepresentable> where Key.RawValue == String {
         set(data, forKey: key)
     }
 
+#if os(macOS)
+
+    public func set(securityScopedURL url: URL?, forKey key: Key) throws {
+        let bookmarkData = try url?.bookmarkData(options: .withSecurityScope,
+                                                 includingResourceValuesForKeys: nil,
+                                                 relativeTo: nil)
+        set(bookmarkData, forKey: key)
+    }
+
+    public func securityScopedURL(forKey key: Key) throws -> URL? {
+        guard let bookmarkData = object(forKey: key) as? Data else {
+            return nil
+        }
+        var isStale = true
+        let url = try URL(resolvingBookmarkData: bookmarkData,
+                          options: .withSecurityScope,
+                          bookmarkDataIsStale: &isStale)
+        guard url.startAccessingSecurityScopedResource() else {
+            return nil
+        }
+        return url
+    }
+
+#endif
+
 }
