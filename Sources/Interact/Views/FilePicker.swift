@@ -28,11 +28,17 @@ import SwiftUI
 @available(tvOS, unavailable)
 @available(watchOS, unavailable)
 @available(visionOS, unavailable)
-struct FilePickerOptions: OptionSet {
-    let rawValue: Int
-    static let canChooseFiles = Self(rawValue: 1 << 0)
-    static let canChooseDirectories = Self(rawValue: 1 << 1)
-    static let canCreateDirectories = Self(rawValue: 1 << 2)
+public struct FilePickerOptions: OptionSet {
+
+    public let rawValue: Int
+
+    public init(rawValue: Int) {
+        self.rawValue = rawValue
+    }
+
+    public static let canChooseFiles = Self(rawValue: 1 << 0)
+    public static let canChooseDirectories = Self(rawValue: 1 << 1)
+    public static let canCreateDirectories = Self(rawValue: 1 << 2)
 }
 
 @available(macOS 13.0, *)
@@ -41,20 +47,20 @@ struct FilePickerOptions: OptionSet {
 @available(tvOS, unavailable)
 @available(watchOS, unavailable)
 @available(visionOS, unavailable)
-struct FilePicker<Label: View>: View {
+public struct FilePicker<Label: View>: View {
 
     let label: Label
     let options: FilePickerOptions
 
     @Binding var url: URL
 
-    init(url: Binding<URL>, options: FilePickerOptions = [], @ViewBuilder label: () -> Label) {
+    public init(url: Binding<URL>, options: FilePickerOptions = [], @ViewBuilder label: () -> Label) {
         self.label = label()
         self.options = options
         _url = url
     }
 
-    var body: some View {
+    public var body: some View {
         LabeledContent {
             HStack {
                 Text(url.displayName)
@@ -88,7 +94,7 @@ struct FilePicker<Label: View>: View {
 @available(visionOS, unavailable)
 extension FilePicker where Label == Text {
 
-    init(_ titleKey: LocalizedStringKey, url: Binding<URL>, options: FilePickerOptions = []) {
+    public init(_ titleKey: LocalizedStringKey, url: Binding<URL>, options: FilePickerOptions = []) {
         self.label = Text(titleKey)
         self.options = options
         _url = url
