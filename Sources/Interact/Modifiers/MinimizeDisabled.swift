@@ -28,6 +28,7 @@ import SwiftUI
 struct MinimizeDisabled: ViewModifier {
 
     func body(content: Content) -> some View {
+#if os(macOS)
         if #available(macOS 15.0, *) {
             content
                 .windowMinimizeBehavior(.disabled)
@@ -37,6 +38,9 @@ struct MinimizeDisabled: ViewModifier {
                     window.styleMask.remove(.miniaturizable)
                 }
         }
+#else
+        content
+#endif
     }
 
 }
