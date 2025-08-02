@@ -72,6 +72,9 @@ public struct FilePicker<Label: View>: View {
     public var body: some View {
         LabeledContent {
             HStack {
+                if let url = getURL() {
+                    IconView(url: url, size: CGSize(width: 16, height: 16))
+                }
                 Text(getURL()?.displayName ?? "~")
                 Button("Select...") {
                     let openPanel = NSOpenPanel()
@@ -114,6 +117,28 @@ extension FilePicker where Label == Text {
     public init(_ titleKey: LocalizedStringKey, url: Binding<URL>, options: FilePickerOptions = []) {
         self.init(url: url, options: options) {
             Text(titleKey)
+        }
+    }
+
+}
+
+@available(macOS 13.0, *)
+@available(macCatalyst, unavailable)
+@available(iOS, unavailable)
+@available(tvOS, unavailable)
+@available(watchOS, unavailable)
+@available(visionOS, unavailable)
+extension FilePicker where Label == EmptyView {
+
+    public init(url: Binding<URL?>, options: FilePickerOptions = []) {
+        self.init(url: url, options: options) {
+            EmptyView()
+        }
+    }
+
+    public init(url: Binding<URL>, options: FilePickerOptions = []) {
+        self.init(url: url, options: options) {
+            EmptyView()
         }
     }
 
