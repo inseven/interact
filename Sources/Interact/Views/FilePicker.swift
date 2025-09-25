@@ -52,31 +52,45 @@ public struct FilePicker<Label: View>: View {
     let label: Label
     let options: FilePickerOptions
 
-    @Binding var url: URL
+    private let getURL: () -> URL?
+    private let setURL: (URL) -> Void
+
+    public init(url: Binding<URL?>, options: FilePickerOptions = [], @ViewBuilder label: () -> Label) {
+        self.label = label()
+        self.options = options
+        self.getURL = { url.wrappedValue }
+        self.setURL = { url.wrappedValue = $0 }
+    }
 
     public init(url: Binding<URL>, options: FilePickerOptions = [], @ViewBuilder label: () -> Label) {
         self.label = label()
         self.options = options
-        _url = url
+        self.getURL = { url.wrappedValue }
+        self.setURL = { url.wrappedValue = $0 }
     }
 
     public var body: some View {
         LabeledContent {
             HStack {
-                Text(url.displayName)
+                if let url = getURL() {
+                    IconView(url: url, size: CGSize(width: 16, height: 16))
+                }
+                Text(getURL()?.displayName ?? "~")
                 Button("Select...") {
                     let openPanel = NSOpenPanel()
                     openPanel.canChooseFiles = options.contains(.canChooseFiles)
                     openPanel.canChooseDirectories = options.contains(.canChooseDirectories)
                     openPanel.canCreateDirectories = options.contains(.canCreateDirectories)
-                    openPanel.directoryURL = url.hasDirectoryPath ? url : url.deletingLastPathComponent()
+                    if let url = getURL() {
+                        openPanel.directoryURL = url.hasDirectoryPath ? url : url.deletingLastPathComponent()
+                    }
                     guard
                         openPanel.runModal() ==  NSApplication.ModalResponse.OK,
                         let url = openPanel.url
                     else {
                         return
                     }
-                    self.url = url
+                    setURL(url)
                 }
             }
         } label: {
@@ -94,10 +108,38 @@ public struct FilePicker<Label: View>: View {
 @available(visionOS, unavailable)
 extension FilePicker where Label == Text {
 
+    public init(_ titleKey: LocalizedStringKey, url: Binding<URL?>, options: FilePickerOptions = []) {
+        self.init(url: url, options: options) {
+            Text(titleKey)
+        }
+    }
+
     public init(_ titleKey: LocalizedStringKey, url: Binding<URL>, options: FilePickerOptions = []) {
-        self.label = Text(titleKey)
-        self.options = options
-        _url = url
+        self.init(url: url, options: options) {
+            Text(titleKey)
+        }
+    }
+
+}
+
+@available(macOS 13.0, *)
+@available(macCatalyst, unavailable)
+@available(iOS, unavailable)
+@available(tvOS, unavailable)
+@available(watchOS, unavailable)
+@available(visionOS, unavailable)
+extension FilePicker where Label == EmptyView {
+
+    public init(url: Binding<URL?>, options: FilePickerOptions = []) {
+        self.init(url: url, options: options) {
+            EmptyView()
+        }
+    }
+
+    public init(url: Binding<URL>, options: FilePickerOptions = []) {
+        self.init(url: url, options: options) {
+            EmptyView()
+        }
     }
 
 }
