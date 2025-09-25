@@ -13,7 +13,7 @@ jobs:
   test:
 
     name: build
-    runs-on: macOS-ventura
+    runs-on: inseven-macos-26
 
     steps:
 
@@ -27,7 +27,7 @@ jobs:
       run: scripts/install-dependencies.sh
 
     - name: Build
-      run: exec ./scripts/build.sh
+      run: scripts/build.sh
 
     - name: Release
       if: github.ref == 'refs/heads/main'
