@@ -20,7 +20,7 @@
 
 import SwiftUI
 
-struct PromptModifier<T: Identifiable, A: PromptProtocol>: ViewModifier {
+struct PromptModifier<T: Identifiable, A: Promptable>: ViewModifier {
 
     @Binding var item: T?
 
@@ -40,8 +40,8 @@ struct PromptModifier<T: Identifiable, A: PromptProtocol>: ViewModifier {
 
 public extension View {
 
-    func prompt<T: Identifiable, A: PromptProtocol>(item: Binding<T?>,
-                                                    content: @escaping (T) -> A) -> some View {
+    func prompt<T: Identifiable, A: Promptable>(item: Binding<T?>,
+                                                content: @escaping (T) -> A) -> some View {
         self.modifier(PromptModifier(item: item, content: content))
     }
 

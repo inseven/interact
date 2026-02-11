@@ -20,27 +20,27 @@
 
 import SwiftUI
 
-public protocol PromptProtocol {
-
+public protocol Promptable {
+    
     associatedtype Actions: View
     associatedtype Message: View
-
+    
     var title: String { get }
     var actions: Actions { get }
     var message: Message { get }
-
+    
 }
 
-public struct Prompt<Actions: View, Message: View>: PromptProtocol {
-
+public struct Prompt<Actions: View, Message: View>: Promptable {
+    
     public let title: String
     public let actions: Actions
     public let message: Message
-
+    
     public init(_ title: String, @ViewBuilder actions: () -> Actions, @ViewBuilder message: () -> Message) {
         self.title = title
         self.actions = actions()
         self.message = message()
     }
-
+    
 }
