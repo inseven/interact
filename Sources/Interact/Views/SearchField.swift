@@ -23,6 +23,7 @@ import SwiftUI
 #if os(macOS)
 
 /// SwiftUI wrapper for `NSSearchField`.
+@available(*, deprecated, message: "Use SwiftUI's `.searchable(text:)` modifier instead.")
 public struct SearchField: NSViewRepresentable {
 
     public class Coordinator: NSObject, NSSearchFieldDelegate {
