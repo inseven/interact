@@ -25,6 +25,7 @@ enum SelectionTrackerError: Error {
     case outOfRange
 }
 
+@available(*, deprecated)
 class SelectionBounds<T> where T: Hashable {
 
     var tracker: SelectionTracker<T>
@@ -63,6 +64,7 @@ class SelectionBounds<T> where T: Hashable {
 
 }
 
+@available(*, deprecated)
 public class SelectionTracker<T>: ObservableObject where T: Hashable {
 
     var publisher: Published<[T]>.Publisher
