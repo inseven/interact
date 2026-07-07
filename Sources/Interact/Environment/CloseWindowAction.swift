@@ -22,8 +22,10 @@ import SwiftUI
 
 #if os(macOS)
 
+@available(macOS, deprecated: 14.0, message: "Use SwiftUI's `dismissWindow` environment action instead.")
 public typealias CloseWindowAction = () -> Void
 
+@available(macOS, deprecated: 14.0)
 struct CloseWindowActionKey: EnvironmentKey {
 
     public static var defaultValue: CloseWindowAction = {
@@ -34,6 +36,7 @@ struct CloseWindowActionKey: EnvironmentKey {
 
 extension EnvironmentValues {
 
+    @available(macOS, deprecated: 14.0, message: "Use SwiftUI's `dismissWindow` environment action instead.")
     public var closeWindow: CloseWindowAction {
         get { self[CloseWindowActionKey.self] }
         set { self[CloseWindowActionKey.self] = newValue }
