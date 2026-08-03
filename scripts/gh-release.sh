@@ -20,22 +20,19 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-ROOT_DIRECTORY="$( cd "$( dirname "$( dirname "${BASH_SOURCE[0]}" )" )" &> /dev/null && pwd )"
-SCRIPTS_DIRECTORY="$ROOT_DIRECTORY/scripts"
+set -e
+set -o pipefail
+set -x
 
-export LOCAL_TOOLS_PATH="$ROOT_DIRECTORY/.local"
+# Actually make the release.
+FLAGS=()
+if $CHANGES_INITIAL_DEVELOPMENT ; then
+    FLAGS+=("--prerelease")
+fi
+gh release create "$CHANGES_TAG" --title "$CHANGES_TITLE" --notes-file "$CHANGES_NOTES_FILE" "${FLAGS[@]}"
 
-# Keep Python user installs local to the project instead of polluting the host.
-export PYTHONUSERBASE="$LOCAL_TOOLS_PATH/python"
-mkdir -p "$PYTHONUSERBASE"
-export PATH="$PYTHONUSERBASE/bin":$PATH
-
-# Keep pipenv virtualenvs local and predictable.
-export WORKON_HOME="$LOCAL_TOOLS_PATH"
-export PIPENV_CUSTOM_VENV_NAME="venv"
-export PIPENV_VENV_IN_PROJECT=0
-export PIPENV_IGNORE_VIRTUALENVS=1
-export PIPENV_PIPFILE="$SCRIPTS_DIRECTORY/Pipfile"
-
-# Add the tools to the path.
-export PATH="$LOCAL_TOOLS_PATH/venv/bin":$PATH
+# Upload the attachments.
+for attachment in "$@"
+do
+    gh release upload "$CHANGES_TAG" "$attachment"
+done
