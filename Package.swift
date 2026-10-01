@@ -14,7 +14,7 @@ let package = Package(
             targets: ["Interact"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.0.0"),
+        .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.5.0"),
         .package(url: "https://github.com/inseven/licensable", from: "0.1.0"),
     ],
     targets: [
